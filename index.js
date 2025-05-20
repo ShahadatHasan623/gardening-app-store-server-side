@@ -51,6 +51,20 @@ async function run() {
       
     })
 
+    // update Tip 
+    app.put('/garden/:id',async(req,res)=>{
+      const id =req.params.id;
+      const filter ={_id: new ObjectId(id)};
+      const updateGarden =req.body;
+      const options = { upsert: true }; 
+      const updateDoc={
+        $set:updateGarden
+      };
+      const result =await gardenCollection.updateOne(filter,updateDoc,options)
+      res.send(result)
+      
+    })
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
