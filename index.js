@@ -42,6 +42,15 @@ async function run() {
       res.send(result);
     });
 
+    // delete korbo 
+    app.delete('/garden/:id',async(req,res)=>{
+      const id =req.params.id;
+      const filter ={_id: new ObjectId(id)};
+      const result =await gardenCollection.deleteOne(filter)
+      res.send(result)
+      
+    })
+
     await client.db("admin").command({ ping: 1 });
     console.log(
       "Pinged your deployment. You successfully connected to MongoDB!"
