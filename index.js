@@ -23,6 +23,7 @@ async function run() {
     // await client.connect();
 
     const gardenCollection = client.db("gardenDB").collection("garden");
+    const exploreCollection = client.db("gardenersDB").collection("gardeners");
 
     app.post("/garden", async (req, res) => {
       const gardenUser = req.body;
@@ -64,6 +65,19 @@ async function run() {
       res.send(result)
       
     })
+    //  Explore Gardeners:
+
+    app.post('/gardeners',async(req,res)=>{
+      const gardeners =req.body;
+      const result =await exploreCollection.insertOne(gardeners)
+      res.send(result)
+    })
+
+    app.get('/gardeners',async(req,res)=>{
+      const result =await exploreCollection.find().toArray()
+      res.send(result)
+    })
+
 
     // await client.db("admin").command({ ping: 1 });
     // console.log(
