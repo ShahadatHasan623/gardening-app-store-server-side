@@ -24,6 +24,7 @@ async function run() {
 
     const gardenCollection = client.db("gardenDB").collection("garden");
     const exploreCollection = client.db("gardenersDB").collection("gardeners");
+    const trendingCollection = client.db("trendingDB").collection("trending");
 
     app.post("/garden", async (req, res) => {
       const gardenUser = req.body;
@@ -74,7 +75,14 @@ async function run() {
     })
 
     app.get('/gardeners',async(req,res)=>{
-      const result =await exploreCollection.find().toArray()
+      const result =await exploreCollection.find({status:"active"}).limit(6).toArray()
+      res.send(result)
+    })
+
+    // top trending data
+    app.post('/trending',async(req,res)=>{
+      const trending =req.body;
+      const result =await trendingCollection.insertOne(trending);
       res.send(result)
     })
 
