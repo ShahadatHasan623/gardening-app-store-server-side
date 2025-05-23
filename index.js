@@ -88,12 +88,13 @@ async function run() {
       res.send(result);
     });
 
-    // top trending data
-    app.post("/trending", async (req, res) => {
-      const trending = req.body;
-      const result = await trendingCollection.insertOne(trending);
-      res.send(result);
-    });
+    app.get("/gardeners/:id",async(req,res)=>{
+      const id =req.params.id;
+      const query ={_id: new ObjectId(id)};
+      const result =await exploreCollection.findOne(query)
+      res.send(result)
+    })
+
 
     // await client.db("admin").command({ ping: 1 });
     // console.log(
