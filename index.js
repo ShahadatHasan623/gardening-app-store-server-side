@@ -73,13 +73,6 @@ async function run() {
       res.send(result);
     });
     //  Explore Gardeners:
-
-    app.post("/gardeners", async (req, res) => {
-      const gardeners = req.body;
-      const result = await exploreCollection.insertOne(gardeners);
-      res.send(result);
-    });
-
     app.get("/gardeners", async (req, res) => {
       const result = await exploreCollection
         .find({ status: "active" })
@@ -87,14 +80,19 @@ async function run() {
         .toArray();
       res.send(result);
     });
+    app.get("/gardeners/all", async (req, res) => {
+      const result = await exploreCollection
+        .find()
+        .toArray();
+      res.send(result);
+    });
 
-    app.get("/gardeners/:id",async(req,res)=>{
-      const id =req.params.id;
-      const query ={_id: new ObjectId(id)};
-      const result =await exploreCollection.findOne(query)
-      res.send(result)
-    })
-
+    app.get("/gardeners/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await exploreCollection.findOne(query);
+      res.send(result);
+    });
 
     // await client.db("admin").command({ ping: 1 });
     // console.log(
