@@ -77,7 +77,7 @@ async function run() {
     app.get("/gardeners", async (req, res) => {
       const result = await exploreCollection
         .find({ status: "active" })
-        .limit(6)
+        .limit(8)
         .toArray();
       res.send(result);
     });
