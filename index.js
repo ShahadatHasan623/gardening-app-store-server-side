@@ -24,6 +24,7 @@ async function run() {
 
     const gardenCollection = client.db("gardenDB").collection("garden");
     const exploreCollection = client.db("gardenersDB").collection("gardeners");
+    const newsCollection = client.db("subscribeDB").collection("subscribers");
 
     app.post("/garden", async (req, res) => {
       const gardenUser = req.body;
@@ -81,9 +82,7 @@ async function run() {
       res.send(result);
     });
     app.get("/gardeners/all", async (req, res) => {
-      const result = await exploreCollection
-        .find()
-        .toArray();
+      const result = await exploreCollection.find().toArray();
       res.send(result);
     });
 
@@ -93,6 +92,18 @@ async function run() {
       const result = await exploreCollection.findOne(query);
       res.send(result);
     });
+
+    // newsletter section
+    app.post("/newsletter", async (req, res) => {
+      const { email, subscribedAt } = req.body;
+      const result = await newsCollection.insertOne({ email, subscribedAt });
+      res.send(result)
+    });
+    app.get('/newsletter',async(req,res)=>{
+      const news =req.body;
+      const result =await newsCollection.find(news).toArray()
+      res.send(result)
+    })
 
     // await client.db("admin").command({ ping: 1 });
     // console.log(
